@@ -1,4 +1,5 @@
 
+
 def add_to_inventory(inventory):
     item = input("Welches Item willst du deinem Inventar hinzufügen?: ").lower()
     count = int(input(f"Anzahl der {item}: "))
@@ -22,12 +23,12 @@ def delete_from_inventory(inventory):
 
 
 backpack = {}
-
-add_to_inventory(backpack)
-print(backpack)
-delete_from_inventory(backpack)
-print(backpack)
-add_to_inventory(backpack)
-print(backpack)
-add_to_inventory(backpack)
-print(backpack)
+if __name__ == "__main__":
+    add_to_inventory(backpack)
+    print(backpack)
+    delete_from_inventory(backpack)
+    print(backpack)
+    add_to_inventory(backpack)
+    print(backpack)
+    add_to_inventory(backpack)
+    print(backpack)
