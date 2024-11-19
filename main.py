@@ -1,6 +1,6 @@
 import pandas as pd
-from manage_inventory_funcs import add_to_inventory, delete_from_inventory, save_changes_to_excel_file, \
-    create_data_frame
+from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory
+
 
 if __name__ == "__main__":
 
@@ -25,22 +25,31 @@ if __name__ == "__main__":
                 remove - item aus Inventar entfernen
                 change -  Schreibfehler korrigieren
                 currency - Geldwerte verwalten
+                clear - Inventar komplett, unwiederuflich, löschen
                   """)
 
         elif player_input == "end":
             running = False
 
         elif player_input == "display":
-            print("\n", create_data_frame(inventory), "\n")
+            print("\n", excel_frame, "\n")
 
         elif player_input == "add":
-            inventory = add_to_inventory(inventory)
-            save_changes_to_excel_file(inventory, file_path)
-
+            excel_frame = add_to_inventory(excel_frame)
+            save_changes_to_excel_file(excel_frame, file_path)
 
         elif player_input == "remove":
-            inventory = delete_from_inventory(inventory)
-            save_changes_to_excel_file(inventory, file_path)
+            excel_frame = delete_from_inventory(excel_frame)
+            save_changes_to_excel_file(excel_frame, file_path)
+
+        elif player_input == "clear":
+            verification = input("Mit der Eingabe -verify- das gesamte Inventar löschen: ")
+            if verification == "verify":
+                excel_frame = delete_whole_inventory(excel_frame)
+                save_changes_to_excel_file(excel_frame, file_path)
+            else:
+                print("Dein Inventar wurde nicht gelöscht.")
+
 
         else:
             print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen.")
