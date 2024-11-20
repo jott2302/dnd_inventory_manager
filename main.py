@@ -1,6 +1,5 @@
 import pandas as pd
-from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory
-
+from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory, correct_inventory_item
 
 if __name__ == "__main__":
 
@@ -49,6 +48,10 @@ if __name__ == "__main__":
                 save_changes_to_excel_file(excel_frame, file_path)
             else:
                 print("Dein Inventar wurde nicht gelöscht.")
+
+        elif player_input == "change":
+            excel_frame = correct_inventory_item(excel_frame)
+            save_changes_to_excel_file(excel_frame,file_path)
 
 
         else:

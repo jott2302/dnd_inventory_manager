@@ -24,10 +24,16 @@ def delete_from_inventory(df):
     return df
 
 
-def correct_inventory_item(inventory):
-    item_old = input("Welches Item soll korrigiert werden?: ")
-    item_new = input("Wie heißt das neue Item?: ")
-    inventory[item_new] = inventory.pop(item_old)
+def correct_inventory_item(df):
+    item_old = input("Welches Item soll korrigiert werden?: ").lower()
+    item_new = input("Wie heißt das neue Item?: ").lower()
+    if item_old in df["Items"].values:
+        df.loc[df["Items"] == item_old, "Items"] = item_new
+        print(f"{item_old} wurde erfolgreich in {item_new} umgeändert.")
+    else:
+        print(f"{item_old} konnte nicht im Inventar gefunden werden.")
+    return df
+
 
 def save_changes_to_excel_file(df_excel, data_path):
     with pd.ExcelWriter(data_path, mode="a", if_sheet_exists="replace") as writer:
