@@ -4,10 +4,9 @@ from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame,
 if __name__ == "__main__":
 
     file_path = "C:/Users/julia/Documents/dnd_programme/dnd_inventory.xlsx"
-    excel_frame = pd.read_excel(file_path)
-    print(excel_frame)
-    inventory = dict(zip(excel_frame["Items"],excel_frame["Count"]))
-    print(inventory)
+    excel_inventory = pd.read_excel(file_path, sheet_name="Inventory")
+    print(excel_inventory)
+    excel_wallet = pd.read_excel(file_path, sheet_name="Wallet")
 
 
 
@@ -23,7 +22,7 @@ if __name__ == "__main__":
                 add - item zu Inventar hinzufügen
                 remove - item aus Inventar entfernen
                 change -  Schreibfehler korrigieren
-                currency - Geldwerte verwalten
+                wallet - Geldwerte verwalten
                 clear - Inventar komplett, unwiederuflich, löschen
                   """)
 
@@ -31,27 +30,30 @@ if __name__ == "__main__":
             running = False
 
         elif player_input == "display":
-            print("\n", excel_frame, "\n")
+            print("\n", excel_inventory, "\n")
 
         elif player_input == "add":
-            excel_frame = add_to_inventory(excel_frame)
-            save_changes_to_excel_file(excel_frame, file_path)
+            excel_inventory = add_to_inventory(excel_inventory)
+            save_changes_to_excel_file(excel_inventory, file_path, "Inventory")
 
         elif player_input == "remove":
-            excel_frame = delete_from_inventory(excel_frame)
-            save_changes_to_excel_file(excel_frame, file_path)
+            excel_inventory = delete_from_inventory(excel_inventory)
+            save_changes_to_excel_file(excel_inventory, file_path, "Inventory")
 
         elif player_input == "clear":
             verification = input("Mit der Eingabe -verify- das gesamte Inventar löschen: ")
             if verification == "verify":
-                excel_frame = delete_whole_inventory(excel_frame)
-                save_changes_to_excel_file(excel_frame, file_path)
+                excel_inventory = delete_whole_inventory(excel_inventory)
+                save_changes_to_excel_file(excel_inventory, file_path, "Inventory")
             else:
                 print("Dein Inventar wurde nicht gelöscht.")
 
         elif player_input == "change":
-            excel_frame = correct_inventory_item(excel_frame)
-            save_changes_to_excel_file(excel_frame,file_path)
+            excel_inventory = correct_inventory_item(excel_inventory)
+            save_changes_to_excel_file(excel_inventory,file_path, "Inventory")
+
+        elif player_input == "wallet":
+            save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
 
 
         else:

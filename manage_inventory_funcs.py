@@ -35,9 +35,9 @@ def correct_inventory_item(df):
     return df
 
 
-def save_changes_to_excel_file(df_excel, data_path):
+def save_changes_to_excel_file(df_excel, data_path, sheet):
     with pd.ExcelWriter(data_path, mode="a", if_sheet_exists="replace") as writer:
-        df_excel.to_excel(writer, index=False, sheet_name="Inventory")
+        df_excel.to_excel(writer, index=False, sheet_name=sheet)
 
 
 def create_data_frame(dict_inventory):
@@ -46,3 +46,9 @@ def create_data_frame(dict_inventory):
 def delete_whole_inventory(df_excel):
     empty_df = df_excel[0:0]
     return empty_df
+
+
+#def set_up_inventory_and_wallet():
+#    wallet_daten = {"Currency": ["PP", "GP", "SP", "CP"],
+#                          "Amount": [0,0,0,0]}
+#    excel_wallet = pd.DataFrame(wallet_daten)
