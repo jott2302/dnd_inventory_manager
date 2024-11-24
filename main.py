@@ -1,13 +1,12 @@
 import pandas as pd
 from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory, correct_inventory_item
-
+from manage_wallet_funcs import manage_currencies
 if __name__ == "__main__":
 
     file_path = "C:/Users/julia/Documents/dnd_programme/dnd_inventory.xlsx"
     excel_inventory = pd.read_excel(file_path, sheet_name="Inventory")
     print(excel_inventory)
     excel_wallet = pd.read_excel(file_path, sheet_name="Wallet")
-
 
 
     running = True
@@ -18,7 +17,7 @@ if __name__ == "__main__":
             print("""
                 Du kannst folgende Commands ausführen:
                 end - Programm beenden
-                display - aktuelles Inventar ausgeben
+                inv - aktuelles Inventar ausgeben
                 add - item zu Inventar hinzufügen
                 remove - item aus Inventar entfernen
                 change -  Schreibfehler korrigieren
@@ -29,7 +28,7 @@ if __name__ == "__main__":
         elif player_input == "end":
             running = False
 
-        elif player_input == "display":
+        elif player_input == "inv":
             print("\n", excel_inventory, "\n")
 
         elif player_input == "add":
@@ -53,7 +52,10 @@ if __name__ == "__main__":
             save_changes_to_excel_file(excel_inventory,file_path, "Inventory")
 
         elif player_input == "wallet":
+            print("\n", excel_wallet, "\n")
+            manage_currencies(excel_wallet)
             save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
+            print("\n", excel_wallet, "\n")
 
 
         else:
