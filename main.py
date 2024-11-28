@@ -1,11 +1,13 @@
 import pandas as pd
+import os.path
 from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory, correct_inventory_item
 from manage_wallet_funcs import manage_currencies
+from excel_file_setup import check_file_path
 if __name__ == "__main__":
 
-    file_path = "C:/Users/julia/Documents/dnd_programme/dnd_inventory.xlsx"
+    file_path = fr"{os.getcwdb().decode()}/excel_table/dnd_inventory.xlsx".replace(r"\\", "/")
+    check_file_path(file_path)
     excel_inventory = pd.read_excel(file_path, sheet_name="Inventory")
-    print(excel_inventory)
     excel_wallet = pd.read_excel(file_path, sheet_name="Wallet")
 
 
