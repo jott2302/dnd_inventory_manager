@@ -62,15 +62,15 @@ if __name__ == "__main__":
 
         elif player_input == "convert":
             print("\n", excel_wallet, "\n")
-            from_currency = input("Welche Währung willst du umtauschen CP, SP, GP oder PP?: ").upper()
+            have_currency = input("Welche Währung willst du umtauschen CP, SP, GP oder PP?: ").upper()
             print()
-            to_currency = input(f"In welche Währung soll dein {from_currency} umgetauscht werden?: ").upper()
+            want_currency = input(f"In welche Währung soll dein {have_currency} umgetauscht werden?: ").upper()
             print()
-            amount = int(input(f"Wie viel {from_currency} soll in {to_currency} umgetauscht werden?: "))
-            convert_to_excel_wallet(excel_wallet, from_currency, to_currency, amount)
+            currency_amount = int(input(f"Wie viel {have_currency} soll in {want_currency} umgetauscht werden?: "))
+            convert_to_excel_wallet(excel_wallet, have_currency, want_currency, currency_amount)
             save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
             print("\n", excel_wallet, "\n")
 
 
         else:
-            print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen.")
+            print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen."

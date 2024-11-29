@@ -40,7 +40,7 @@ def convert_between_currencies(from_currency, to_currency, amount):
     elif currency_difference < 0:
         return amount * (conversion_rate **abs(currency_difference))
     else:
-        print("Keine Konvertierung notwengig.")
+        print("Keine Konvertierung notwendig.")
         return False
 
 def convert_to_excel_wallet(excel_frame, from_currency, to_currency, amount):
