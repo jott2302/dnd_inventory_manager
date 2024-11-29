@@ -46,15 +46,3 @@ def create_data_frame(dict_inventory):
 def delete_whole_inventory(df_excel):
     empty_df = df_excel[0:0]
     return empty_df
-
-##################
-def set_up_inventory_and_wallet():
-    wallet_daten = {"Currency": ["PP", "GP", "SP", "CP"],
-                          "Amount": [0,0,0,0]}
-    inv_daten = {"Item": [],
-                 "Count": []}
-    excel_wallet = pd.DataFrame(wallet_daten)
-    excel_inventory = pd.DataFrame(inv_daten)
-    excel_inventory.to_excel("dnd_inventory.xlsx", sheet_name="Inventory")
-    excel_wallet.to_excel("dnd_inventory.xlsx", sheet_name="Wallet")
-#####################

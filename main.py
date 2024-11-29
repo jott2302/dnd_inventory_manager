@@ -1,7 +1,7 @@
 import pandas as pd
 import os.path
 from manage_inventory_funcs import save_changes_to_excel_file,create_data_frame, delete_whole_inventory, add_to_inventory, delete_from_inventory, correct_inventory_item
-from manage_wallet_funcs import manage_currencies
+from manage_wallet_funcs import manage_currencies, convert_to_excel_wallet
 from excel_file_setup import check_file_path
 if __name__ == "__main__":
 
@@ -24,6 +24,7 @@ if __name__ == "__main__":
                 remove - item aus Inventar entfernen
                 change -  Schreibfehler korrigieren
                 wallet - Geldwerte verwalten
+                convert - Geldwerte umtauschen
                 clear - Inventar komplett, unwiederuflich, löschen
                   """)
 
@@ -59,13 +60,17 @@ if __name__ == "__main__":
             save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
             print("\n", excel_wallet, "\n")
 
+        elif player_input == "convert":
+            print("\n", excel_wallet, "\n")
+            from_currency = input("Welche Währung willst du umtauschen CP, SP, GP oder PP?: ").upper()
+            print()
+            to_currency = input(f"In welche Währung soll dein {from_currency} umgetauscht werden?: ").upper()
+            print()
+            amount = int(input(f"Wie viel {from_currency} soll in {to_currency} umgetauscht werden?: "))
+            convert_to_excel_wallet(excel_wallet, from_currency, to_currency, amount)
+            save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
+            print("\n", excel_wallet, "\n")
+
 
         else:
             print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen.")
-
-
-
-
-    commands = ["add", "remove", "remove last", "currency", "display inventory","end", "help"]
-
-    # mehr mit dataframe und pandas in testground ausprobieren
