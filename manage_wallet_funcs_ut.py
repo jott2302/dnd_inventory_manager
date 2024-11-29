@@ -15,3 +15,5 @@ class TestManageCurrencies(unittest.TestCase):
         manage_currencies(data_frame)
         updated_cp_value = data_frame.loc[data_frame["Currency"] == "CP", "Amount"].iloc[0]
         self.assertEqual(updated_cp_value, 20)
+
+    @patch()

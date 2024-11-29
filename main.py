@@ -73,4 +73,5 @@ if __name__ == "__main__":
 
 
         else:
-            print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen."
+            print("Bitte gebe ein bekanntes Command ein. Diese kannst du mit help nachschlagen.")
+
