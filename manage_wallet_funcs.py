@@ -1,6 +1,20 @@
 import pandas as pd
 
-def manage_currencies(df):
+def manage_currencies(df: pd.DataFrame):
+    """
+    Adjusts the amount of a specified currency in the dataframe.
+
+    Parameters:
+        df (pandas.DataFrame): A dataframe with "Currency" and "Amount" columns.
+
+    Returns:
+        pandas.DataFrame: The updated dataframe.
+
+    Description:
+        Allows the user to select a currency (CP, SP, GP, PP) and modify its amount
+        by entering a positive or negative value. Prevents amounts from dropping below zero.
+        Enter "0" to exit the process.
+    """
     while True:
         currency = input("Welche Währung soll angeglichen werden?(0 - cancel): ").upper()
         if currency in ["CP","SP","GP","PP"]:
@@ -22,7 +36,27 @@ def manage_currencies(df):
             print("Ungültige Eingabe. Bitte wähle CP, SP, GP, PP oder 0.")
 
 
-def convert_between_currencies(from_currency, to_currency, amount):
+def convert_between_currencies(from_currency: str, to_currency: str, amount: int):
+    """
+      Converts an amount between two specified currencies.
+
+      Parameters:
+          from_currency (str): The currency to convert from ("CP", "SP", "GP", "PP").
+          to_currency (str): The currency to convert to ("CP", "SP", "GP", "PP").
+          amount (int): The amount to be converted. Must be a non-negative integer.
+
+      Returns:
+          float or bool: The converted amount as a float, or False if the input is invalid
+                         or no conversion is necessary.
+
+      Description:
+          The function calculates conversions based on a 1:10 ratio between adjacent currencies.
+          It validates the input and ensures both currencies are valid and that the amount
+          is non-negative.
+      """
+    if not isinstance(amount, int):
+        print("Die Währung muss als integer Typ angegeben werden.")
+        return False
     if amount < 0:
         print("Die Währung kann nicht negativ sein.")
         return False
@@ -43,7 +77,26 @@ def convert_between_currencies(from_currency, to_currency, amount):
         print("Keine Konvertierung notwendig.")
         return False
 
-def convert_to_excel_wallet(excel_frame, from_currency, to_currency, amount):
+def convert_to_excel_wallet(excel_frame: pd.DataFrame, from_currency: str, to_currency: str, amount: int):
+    """
+    Converts a specified amount from one currency to another in an Excel-like dataframe.
+
+    Parameters:
+        excel_frame (pd.DataFrame): A DataFrame as an Excel-File to open and change.
+        from_currency (str): The currency to convert from ("CP", "SP", "GP", "PP").
+        to_currency (str): The currency to convert to ("CP", "SP", "GP", "PP").
+        amount (int): The amount to be converted. Must be a non-negative integer.
+
+    Returns:
+        The manipulated or unchanged excel_frame depending on the validity of the amount.
+
+    Description:
+        This function checks if there is a sufficient balance in `from_currency` to perform
+        the conversion. If successful, it deducts the amount from `from_currency`, adds the
+        equivalent amount to `to_currency`, and ensures conversions yield whole numbers.
+        If any condition is not met, the dataframe remains unchanged, and an appropriate
+        message is printed.
+    """
     current_balance = excel_frame.loc[excel_frame["Currency"] == from_currency, "Amount"].iloc[0]
     if current_balance < amount:
         print(f"Nicht genügend {from_currency} um in {to_currency} umzuwandeln.")
