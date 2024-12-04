@@ -66,8 +66,13 @@ if __name__ == "__main__":
             print()
             want_currency = input(f"In welche Währung soll dein {have_currency} umgetauscht werden?: ").upper()
             print()
-            currency_amount = int(input(f"Wie viel {have_currency} soll in {want_currency} umgetauscht werden?: "))
-            convert_to_excel_wallet(excel_wallet, have_currency, want_currency, currency_amount)
+            while True:
+                try:
+                    currency_amount = input(f"Wie viel {have_currency} soll in {want_currency} umgetauscht werden?: ")
+                    convert_to_excel_wallet(excel_wallet, have_currency, want_currency, int(currency_amount))
+                    break
+                except ValueError:
+                    print("Die Währung muss als ganze Zahl angegeben werden.")
             save_changes_to_excel_file(excel_wallet, file_path, "Wallet")
             print("\n", excel_wallet, "\n")
 

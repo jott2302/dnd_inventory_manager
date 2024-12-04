@@ -54,15 +54,11 @@ def convert_between_currencies(from_currency: str, to_currency: str, amount: int
           It validates the input and ensures both currencies are valid and that the amount
           is non-negative.
       """
-    if not isinstance(amount, int):
-        print("Die Währung muss als integer Typ angegeben werden.")
+    currency_ordered = ["CP", "SP", "GP", "PP"]
+    if not check_for_valid_currency_and_integer_amount(from_currency, to_currency, amount):
         return False
     if amount < 0:
         print("Die Währung kann nicht negativ sein.")
-        return False
-    currency_ordered = ["CP", "SP", "GP", "PP"]
-    if from_currency not in currency_ordered or to_currency not in currency_ordered:
-        print("Die Währung muss CP, SP, GP oder PP sein.")
         return False
     conversion_rate = 10
     from_index = currency_ordered.index(from_currency)
@@ -97,6 +93,9 @@ def convert_to_excel_wallet(excel_frame: pd.DataFrame, from_currency: str, to_cu
         If any condition is not met, the dataframe remains unchanged, and an appropriate
         message is printed.
     """
+
+    if not check_for_valid_currency_and_integer_amount(from_currency, to_currency, amount):
+        return False
     current_balance = excel_frame.loc[excel_frame["Currency"] == from_currency, "Amount"].iloc[0]
     if current_balance < amount:
         print(f"Nicht genügend {from_currency} um in {to_currency} umzuwandeln.")
@@ -109,6 +108,17 @@ def convert_to_excel_wallet(excel_frame: pd.DataFrame, from_currency: str, to_cu
         return excel_frame
     excel_frame.loc[excel_frame["Currency"] == from_currency, "Amount"] -= amount
     excel_frame.loc[excel_frame["Currency"] == to_currency, "Amount"] += converted_amount
-    print(f"{amount} {from_currency} wurden in {converted_amount} {to_currency} umgewandelt.")
+    print(f"{amount} {from_currency} wurden in {int(converted_amount)} {to_currency} umgewandelt.")
     return excel_frame
 
+
+def check_for_valid_currency_and_integer_amount(from_currency, to_currency, amount):
+    currencies = ["CP", "SP", "GP", "PP"]
+    if from_currency not in currencies or to_currency not in currencies:
+        print("Die Währung muss CP, SP, GP oder PP sein.")
+        return False
+    if not isinstance(amount, int):
+        print("Die Währung muss als integer Typ angegeben werden.")
+        return False
+    else:
+        return True

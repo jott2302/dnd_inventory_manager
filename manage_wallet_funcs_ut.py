@@ -1,6 +1,8 @@
 
 import pandas as pd
-from manage_wallet_funcs import manage_currencies, convert_between_currencies
+from openpyxl.styles.builtins import total
+
+from manage_wallet_funcs import manage_currencies, convert_between_currencies, convert_to_excel_wallet
 import unittest
 from unittest.mock import patch
 
@@ -92,4 +94,40 @@ class TestConvertBetweenCurrencies(unittest.TestCase):
 
 
 class TestConvertToExcelWallet(unittest.TestCase):
+    def setUp(self):
+        self.data_frame = pd.DataFrame({"Currency": ["CP", "SP", "GP", "PP"],
+            "Amount": [10, 10, 10, 10]})
 
+    def test_valid_conversion_upwards(self):
+        convert_to_excel_wallet(self.data_frame, "CP", "SP", 10)
+        remaining_cp = self.data_frame.loc[self.data_frame["Currency"] == "CP", "Amount"].iloc[0]
+        total_sp = self.data_frame.loc[self.data_frame["Currency"] == "SP", "Amount"].iloc[0]
+        self.assertEqual(remaining_cp, 0)
+        self.assertEqual(total_sp, 11)
+    def test_valid_conversion_downwards(self):
+        convert_to_excel_wallet(self.data_frame, "SP", "CP", 10)
+        remaining_sp = self.data_frame.loc[self.data_frame["Currency"] == "SP", "Amount"].iloc[0]
+        total_cp = self.data_frame.loc[self.data_frame["Currency"] == "CP", "Amount"].iloc[0]
+        self.assertEqual(remaining_sp, 0)
+        self.assertEqual(total_cp, 110)
+    def test_same_currency_conversion(self):
+        convert_to_excel_wallet(self.data_frame, "CP", "CP", 10)
+        total_and_remaining_cp = self.data_frame.loc[self.data_frame["Currency"] == "CP", "Amount"].iloc[0]
+        self.assertEqual(total_and_remaining_cp,10)
+    def test_negative_amount_input(self):
+        convert_to_excel_wallet(self.data_frame, "GP", "SP", -10)
+        total_sp = self.data_frame.loc[self.data_frame["Currency"] == "SP", "Amount"].iloc[0]
+        self.assertEqual(total_sp,10)
+    def test_non_integer_amount(self):
+        func_return = convert_to_excel_wallet(self.data_frame, "PP", "GP", 9.5)
+        self.assertFalse(func_return)
+    def test_insufficient_amount(self):
+        convert_to_excel_wallet(self.data_frame, "SP", "GP", 11)
+        total_sp = self.data_frame.loc[self.data_frame["Currency"] == "SP", "Amount"].iloc[0]
+        total_gp = self.data_frame.loc[self.data_frame["Currency"] == "CP", "Amount"].iloc[0]
+        self.assertEqual(total_sp, 10)
+        self.assertEqual(total_gp, 10)
+
+    def test_invalid_currency(self):
+        func_return = convert_to_excel_wallet(self.data_frame, "XX", "XX", 10)
+        self.assertFalse(func_return)
